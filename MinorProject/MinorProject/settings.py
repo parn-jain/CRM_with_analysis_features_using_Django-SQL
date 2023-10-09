@@ -19,6 +19,9 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -78,16 +81,16 @@ WSGI_APPLICATION = 'MinorProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'MinorProjectDB',
-        'USER': 'root',
-        'PASSWORD': 'Pj@123456',
-        'HOST':'127.0.0.1',
-        'PORT':'3306'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'MinorProjectDB',
+#         'USER': 'root',
+#         'PASSWORD': 'Pj@123456',
+#         'HOST':'127.0.0.1',
+#         'PORT':'3306'
+#     }
+# }
 
 
 # Password validation
@@ -125,6 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+MEDIA_URLS ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
