@@ -81,13 +81,24 @@ WSGI_APPLICATION = 'MinorProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'MinorProjectDB',
+#         'USER': 'root',
+#         'PASSWORD': 'Pj@123456',
+#         'HOST':'127.0.0.1',
+#         'PORT':'3306'
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'MinorProjectDB',
+        'NAME': 'minorprojectdb',
         'USER': 'root',
-        'PASSWORD': 'Pj@123456',
-        'HOST':'127.0.0.1',
+        'PASSWORD': 'parnjainthegreat',
+        'HOST':'minorprojectdb.cvemqsvgrfqo.eu-north-1.rds.amazonaws.com',
         'PORT':'3306'
     }
 }
@@ -145,3 +156,24 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django_heroku.settings(locals())
+# [Unit]
+# Description=gunicorn daemon
+# After=network.target
+
+# [Service]
+# User=ubuntu
+# Group=www-data
+# WorkingDirectory=/home/ubuntu/CRM/Minor-Project/MinorProject
+# ExecStart=ExecStart=/usr/local/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/CRM/Minor-Project/MinorProject/MinorProject.sock MinorProject.wsgi:application
+
+# [Install]
+# WantedBy=multi-user.target
+
+
+
+# [Unit]
+# Description=gunicorn socket
+# [Socket]
+# ListenStrean=/run/gunicorn.sock
+# [Install]
+# WantedBy=sockets.target
