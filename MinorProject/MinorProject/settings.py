@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-8%#-$6u2f)in&k9jcl+1!^niwo+o3a5+z&tbf1_wn1w(xsu(rb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app','localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,8 +53,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    # 'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'MinorProject.urls'
@@ -81,16 +81,16 @@ WSGI_APPLICATION = 'MinorProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'MinorProjectDB',
-#         'USER': 'root',
-#         'PASSWORD': 'Pj@123456',
-#         'HOST':'127.0.0.1',
-#         'PORT':'3306'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'MinorProjectDB',
+        'USER': 'root',
+        'PASSWORD': 'Pj@123456',
+        'HOST':'127.0.0.1',
+        'PORT':'3306'
+    }
+}
 
 
 # Password validation
@@ -144,4 +144,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
