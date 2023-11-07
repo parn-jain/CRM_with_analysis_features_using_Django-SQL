@@ -1,14 +1,18 @@
-{% extends 'base.html' %}
-{% block title %}
-Data
-{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block body %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data</title>
+    <!-- Add Bootstrap CSS (optional) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
 
-{% if user.is_authenticated %}
+<body>
     <div class="container mt-5">
         <h2 class="mb-4">Records Form</h2>
-        <form method="post" action="{% url 'data' %}">
+        <form id="recordsForm" method="post" action="{% url 'data' %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="OrderData">Order Date:</label>
@@ -47,93 +51,15 @@ Data
 
             <div class="form-group">
                 <label for="product">Product:</label>
-                <input type="text" class="form-control" id="product" name="product" maxlength="100" required>
+                <select class="form-control" id="product" name="product" required>
+                    <!-- Random products added here -->
+                    <option value="Product 1">Product 1</option>
+                    <option value="Product 2">Product 2</option>
+                    <option value="Product 3">Product 3</option>
+                    <option value="Product 4">Product 4</option>
+                    <option value="Product 5">Product 5</option>
+                </select>
             </div>
-            
-
-
-
-
-
-            <!-- <div class="dropdown">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search products...">
-                </div>
-                <div class="dropdown-content" id="productDropdown">
-                    <input type="checkbox" value="Product 1"> Product 1<br>
-                    <input type="checkbox" value="Product 2"> Product 2<br>
-                    <input type="checkbox" value="Product 3"> Product 3<br>
-                    <input type="checkbox" value="Product 4"> Product 4<br>
-                    <input type="checkbox" value="Product 5"> Product 5<br>
-                    <input type="checkbox" value="Product 6"> Product 6<br>
-                    <input type="checkbox" value="Product 7"> Product 7<br>
-                    <input type="checkbox" value="Product 8"> Product 8<br>
-                    <input type="checkbox" value="Product 9"> Product 9<br>
-                    <input type="checkbox" value="Product 10"> Product 10<br>
-                </div>
-            </div>
-            <div id="selectedProducts"></div>
-            
-            <style>
-                .dropdown {
-                    position: relative;
-                    display: inline-block;
-                }
-            
-                .dropdown-content {
-                    display: none;
-                    position: absolute;
-                    background-color: #f1f1f1;
-                    min-width: 200px;
-                    z-index: 1;
-                }
-            
-                .dropdown:hover .dropdown-content {
-                    display: block;
-                }
-            
-                .search-box {
-                    margin-bottom: 10px;
-                }
-            </style>
-            
-            <script>
-                const searchInput = document.getElementById('searchInput');
-                const checkboxes = document.querySelectorAll('#productDropdown input[type="checkbox"]');
-                const selectedProductsDiv = document.getElementById('selectedProducts');
-            
-                searchInput.addEventListener('input', function () {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    checkboxes.forEach(function (checkbox) {
-                        const productLabel = checkbox.nextSibling.textContent.toLowerCase();
-                        if (productLabel.includes(searchTerm)) {
-                            checkbox.parentElement.style.display = 'block';
-                        } else {
-                            checkbox.parentElement.style.display = 'none';
-                        }
-                    });
-                });
-            
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function () {
-                        const selectedProducts = Array.from(checkboxes)
-                            .filter(function (checkbox) {
-                                return checkbox.checked;
-                            })
-                            .map(function (checkbox) {
-                                return checkbox.value;
-                            });
-                        selectedProductsDiv.textContent = 'Selected Products: ' + selectedProducts.join(', ');
-                    });
-                });
-            </script>
-             -->
-            
-            
-            
-            
-                        
-            
 
             <div class="form-group">
                 <label for="quantity">Quantity:</label>
@@ -148,7 +74,6 @@ Data
                     <option value="Box">Box</option>
                 </select>
             </div>
-            
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -159,9 +84,9 @@ Data
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script>
+        // Your JavaScript code for form submission via AJAX can be added here
+    </script>
+</body>
 
-
-
-{%endif%}
-
-{% endblock body %}
+</html>

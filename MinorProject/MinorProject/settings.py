@@ -81,27 +81,27 @@ WSGI_APPLICATION = 'MinorProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'MinorProjectDB',
-#         'USER': 'root',
-#         'PASSWORD': 'Pj@123456',
-#         'HOST':'127.0.0.1',
-#         'PORT':'3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'minorprojectdb',
+        'NAME': 'MinorProjectDB',
         'USER': 'root',
-        'PASSWORD': 'parnjainthegreat',
-        'HOST':'minorprojectdb.cvemqsvgrfqo.eu-north-1.rds.amazonaws.com',
+        'PASSWORD': 'Pj@123456',
+        'HOST':'127.0.0.1',
         'PORT':'3306'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'minorprojectdb',
+#         'USER': 'root',
+#         'PASSWORD': 'parnjainthegreat',
+#         'HOST':'minorprojectdb.cvemqsvgrfqo.eu-north-1.rds.amazonaws.com',
+#         'PORT':'3306'
+#     }
+# }
 
 
 # Password validation
@@ -142,6 +142,8 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 MEDIA_URLS ='/media/'
+
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATICFILES_DIRS = [
@@ -177,3 +179,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ListenStrean=/run/gunicorn.sock
 # [Install]
 # WantedBy=sockets.target
+
+
+
+# server {
+#     listen 80;
+#     server_name 51.20.92.210;
+
+#     location = /favicon.ico { access_log off; log_not_found off; }
+#     location / {
+#         include proxy_params;
+#         proxy_pass http://unix:/home/sammy/myproject/myproject.sock;
+#     }
+# }

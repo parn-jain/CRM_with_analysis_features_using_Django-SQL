@@ -58,6 +58,8 @@ def data(request):
         quantity = request.POST.get('quantity')
         unit = request.POST.get('unit')
 
+        # create a function here which convert comma seperated data to a list 
+
         # Create a new Records object and save it to the database
         record = Records(
             OrderData=order_data,
