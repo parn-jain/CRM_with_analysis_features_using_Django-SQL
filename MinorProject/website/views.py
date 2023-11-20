@@ -121,3 +121,11 @@ def data(request):
         # ...
 
     return render(request, 'data.html')
+
+
+from django.shortcuts import render
+from .analysis import mean_qty
+
+def mean_qty_view(request):
+    result = mean_qty()  # Call the function to get the mean quantity
+    return render(request, 'try.html', {'result': result})
