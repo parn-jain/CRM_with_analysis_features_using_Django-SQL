@@ -1,90 +1,41 @@
-from django.shortcuts import render, HttpResponse, redirect
-from django.contrib.auth import authenticate, login, logout
+# views.py
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from .models import Records, Product, OrderProduct
 
-
-# Create your views here.
 def index(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        #Authinticate
-        user = authenticate(request,username = username, password = password)
+        
+        # Authenticate
+        user = authenticate(request, username=username, password=password)
+        
         if user is not None:
-            login(request,user)
+            login(request, user)
             messages.success(request, "You have been logged in")
             return redirect('data')
         else:
-            messages.success(request,"Threr was an error")
+            messages.error(request, "There was an error")
             return redirect('home')
     else:
-        context = {'variable':'this was a variable'}
-        return render(request, "index.html",context)
-    # return HttpResponse("This is home page")
+        context = {'variable': 'this was a variable'}
+        return render(request, "index.html", context)
 
 def about(request):
     return render(request, "about.html")
 
-def contactus (request):
+def contactus(request):
     return render(request, "contact.html")
 
-def services (request):
+def services(request):
     return render(request, "services.html")
 
-def login_user(request):
-    pass
 def logout_user(request):
     logout(request)
-    messages.success(request,"You have been loged out")
+    messages.success(request, "You have been logged out")
     return redirect('home')
-
-# def data (request):
-#     return render(request, "data.html")
-
-
-
-# def data(request):
-#     if request.method == 'POST':
-#         # Extract form data from request.POST dictionary
-#         order_data = request.POST.get('OrderData')
-#         name = request.POST.get('Name')
-#         email = request.POST.get('Email')
-#         phone = request.POST.get('phone')
-#         city = request.POST.get('city')
-#         address = request.POST.get('address')
-#         state = request.POST.get('state')
-#         product = request.POST.get('product')
-#         quantity = request.POST.get('quantity')
-#         unit = request.POST.get('unit')
-
-#         # create a function here which convert comma seperated data to a list 
-
-#         # Create a new Records object and save it to the database
-#         record = Records(
-#             OrderData=order_data,
-#             Name=name,
-#             Email=email,
-#             phone=phone,
-#             city=city,
-#             address=address,
-#             state=state,
-#             producy=product,
-#             quantity=quantity,
-#             unit=unit
-#         )
-#         record.save()
-
-#         # Add a success message
-#         messages.success(request, "Record has been added successfully")
-
-#         # Redirect to a success page or any other page as needed
-#         return redirect('home')  # Replace 'success_page' with the actual URL name
-
-#     # Render the form template for GET requests
-#     return render(request, 'data.html')
-
-
 
 def data(request):
     if request.method == 'POST':
@@ -112,20 +63,30 @@ def data(request):
         product_fields = [request.POST[f'product{i}'] for i in range(1, len(request.POST) + 1) if f'product{i}' in request.POST]
         for i in range(len(product_fields)):
             product_name = request.POST[f'product{i + 1}']
-            quantity = int(request.POST[f'quantity{i + 1}'])  # Assuming corresponding quantity fields are named as quantity1, quantity2, ...
-            unit = request.POST[f'unit{i + 1}']  # Assuming corresponding unit fields are named as unit1, unit2, ...
+            quantity = int(request.POST[f'quantity{i + 1}'])
+            unit = request.POST[f'unit{i + 1}']
+            
+            # Get or create the product instance
             product_instance, created = Product.objects.get_or_create(name=product_name)
-            OrderProduct.objects.create(record=records_instance, product=product_instance, quantity=quantity, unit=unit)
 
-        # Handle the rest of your logic (e.g., redirecting to a success page)
-        # ...
+            # Check if there is enough quantity available
+            if product_instance.quantity_available >= quantity:
+                # Create OrderProduct instance
+                OrderProduct.objects.create(record=records_instance, product=product_instance, quantity=quantity, unit=unit)
 
-    return render(request, 'data.html')
+                # Update the quantity_available field for the product
+                product_instance.quantity_available -= quantity
+                product_instance.save()
 
+                # Add a success message
+                messages.success(request, "Record has been added successfully")
+            else:
+                # Add an error message if there is not enough quantity available
+                messages.error(request, f"Not enough quantity available for {product_name}")
 
-from django.shortcuts import render
-from .analysis import mean_qty
+        # Redirect to a success page or any other page as needed
+        return redirect('home')  # Replace 'home' with the actual URL name
 
-def mean_qty_view(request):
-    result = mean_qty()  # Call the function to get the mean quantity
-    return render(request, 'try.html', {'result': result})
+    # Retrieve products for displaying in the form
+    products = Product.objects.all()
+    return render(request, 'data.html', {'products': products})
