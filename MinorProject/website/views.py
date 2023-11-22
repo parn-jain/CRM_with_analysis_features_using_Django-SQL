@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Records, Product, OrderProduct
 from .analysis import mean_qty
-from .analysis import get_top_customer,generate_state_quantity_chart,generate_city_quantity_chart,generate_date_quantity_chart,get_top_product
+from .analysis import get_top_customer,generate_state_quantity_chart,generate_city_quantity_chart,generate_date_quantity_chart,get_top_product,generate_product_quantity_pie_chart
+
 def index(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -102,6 +103,9 @@ def combined_view(request):
     generate_state_quantity_chart()
     generate_date_quantity_chart()
     generate_city_quantity_chart()
+    generate_product_quantity_pie_chart()
+
+    
     # get_top_product()
 
     # Pass the data to the template

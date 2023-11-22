@@ -232,7 +232,8 @@ def generate_date_quantity_chart():
     fig, ax = plt.subplots()
 
     # Create a bar chart using Matplotlib
-    ax.bar(dates, quantities)
+    # ax.bar(dates, quantities)
+    ax.plot(dates, quantities, marker='o', linestyle='-', color='b', label='Total Quantity')
     ax.set_xlabel('Date')
     ax.set_ylabel('Total Quantity')
     ax.set_title('Date vs Quantity')
@@ -278,3 +279,40 @@ def get_top_product():
     else:
         return None
     
+def fetch_product_quantities():
+    with connection.cursor() as cursor:
+        # Execute a raw SQL query to fetch product and quantity data
+        cursor.execute("""
+            SELECT
+                p.name,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_product p
+            JOIN
+                website_orderproduct op ON p.id = op.product_id
+            GROUP BY
+                p.name
+        """)
+        data = cursor.fetchall()
+
+        product_names, quantities = zip(*data)
+
+        return product_names, quantities
+
+def generate_product_quantity_pie_chart():
+    product_names, quantities = fetch_product_quantities()
+
+    # Create a new figure and axes
+    fig, ax = plt.subplots()
+
+    # Create a pie chart using Matplotlib
+    ax.pie(quantities, labels=product_names, autopct='%1.1f%%', startangle=90)
+
+    # Equal aspect ratio ensures that pie is drawn as a circle.
+    ax.axis('equal')  
+
+    # Set the title
+    ax.set_title('Product Quantity Distribution')
+
+    # Save the figure with a unique name
+    plt.savefig('Static/images/product_quantity_pie_chart.png')
