@@ -123,6 +123,10 @@ def get_top_customer():
 import matplotlib.pyplot as plt
 from django.db import connection
 
+# Import necessary libraries
+import matplotlib.pyplot as plt
+from django.db import connection
+
 def fetch_state_quantity():
     with connection.cursor() as cursor:
         # Execute a raw SQL query to fetch state and quantity data
@@ -136,8 +140,6 @@ def fetch_state_quantity():
                 website_orderproduct op ON r.id = op.record_id
             GROUP BY
                 r.state
-            ORDER BY
-                total_quantity DESC;
         """)
         data = cursor.fetchall()
 
@@ -148,10 +150,131 @@ def fetch_state_quantity():
 def generate_state_quantity_chart():
     states, quantities = fetch_state_quantity()
 
-    # Create a bar chart using Matplotlib
-    plt.bar(states, quantities)
-    plt.xlabel('State')
-    plt.ylabel('Total Quantity')
-    plt.title('Total Quantity by State')
-    plt.savefig('Static/images/state_quantity_chart.png')
+    # Create a new figure and axes
+    fig, ax = plt.subplots()
 
+    # Create a bar chart using Matplotlib
+    ax.bar(states, quantities)
+    ax.set_xlabel('State')
+    ax.set_ylabel('Total Quantity')
+    ax.set_title('State vs Quantity')
+
+    # Save the figure with a unique name
+    # fig.savefig('path/to/static/images/state_quantity_chart.png')
+    fig.savefig('Static/images/state_quantity_chart.png')
+
+
+
+def fetch_city_quantity():
+    with connection.cursor() as cursor:
+        # Execute a raw SQL query to fetch city and quantity data
+        cursor.execute("""
+            SELECT
+                r.city,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_records r
+            JOIN
+                website_orderproduct op ON r.id = op.record_id
+            GROUP BY
+                r.city
+        """)
+        data = cursor.fetchall()
+
+        cities, quantities = zip(*data)
+
+        return cities, quantities
+
+def generate_city_quantity_chart():
+    cities, quantities = fetch_city_quantity()
+
+    # Create a new figure and axes
+    fig, ax = plt.subplots()
+
+    # Create a bar chart using Matplotlib
+    ax.bar(cities, quantities, color = 'red')
+    ax.set_xlabel('City')
+    ax.set_ylabel('Total Quantity')
+    ax.set_title('City vs Quantity')
+
+    # Save the figure with a unique name
+    # fig.savefig('path/to/static/images/city_quantity_chart.png')
+    fig.savefig('Static/images/city_quantity_chart.png')
+
+
+
+
+
+
+
+def fetch_date_quantity():
+    with connection.cursor() as cursor:
+        # Execute a raw SQL query to fetch date and quantity data
+        cursor.execute("""
+            SELECT
+                op.OrderData,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_orderproduct op
+            GROUP BY
+                op.OrderData
+        """)
+        data = cursor.fetchall()
+
+        dates, quantities = zip(*data)
+
+        return dates, quantities
+
+def generate_date_quantity_chart():
+    dates, quantities = fetch_date_quantity()
+
+    # Create a new figure and axes
+    fig, ax = plt.subplots()
+
+    # Create a bar chart using Matplotlib
+    ax.bar(dates, quantities)
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Total Quantity')
+    ax.set_title('Date vs Quantity')
+
+    # Save the figure with a unique name
+    # fig.savefig('path/to/static/images/date_quantity_chart.png')
+    plt.savefig('Static/images/date_quantity_chart.png')
+
+
+
+
+    # plt.savefig('Static/images/city_quantity_chart.png')
+
+
+
+
+def get_top_product():
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                p.id as product_id,
+                p.name as product_name,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_product p
+            JOIN
+                website_orderproduct op ON p.id = op.product_id
+            GROUP BY
+                p.id, p.name
+            ORDER BY
+                total_quantity DESC
+            LIMIT 1;
+        """)
+        top_product = cursor.fetchone()
+
+    if top_product:
+        top_product_dict = {
+            'product_id': top_product[0],
+            'product_name': top_product[1],
+            'total_quantity': top_product[2],
+        }
+        return top_product_dict
+    else:
+        return None
+    

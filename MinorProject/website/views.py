@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Records, Product, OrderProduct
 from .analysis import mean_qty
-from .analysis import get_top_customer,generate_state_quantity_chart
+from .analysis import get_top_customer,generate_state_quantity_chart,generate_city_quantity_chart,generate_date_quantity_chart,get_top_product
 def index(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -97,15 +97,18 @@ def combined_view(request):
     # Call your analysis functions to get data
     result_mean_qty = mean_qty()
     result_top_customer = get_top_customer()
-
-
+    top_product = get_top_product()
     # Generate the state vs quantity chart
     generate_state_quantity_chart()
+    generate_date_quantity_chart()
+    generate_city_quantity_chart()
+    # get_top_product()
 
     # Pass the data to the template
     context = {
         'result_mean_qty': result_mean_qty,
         'result_top_customer': result_top_customer,
+        'top_product': top_product,
         # 'chart_image_path': 'path/to/static/images/bar_chart.png',
         # 'state_quantity_chart_image_path': 'MinorProject\Static\images\state_quantity_chart.png',
     }
