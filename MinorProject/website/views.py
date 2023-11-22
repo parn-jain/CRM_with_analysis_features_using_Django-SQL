@@ -99,7 +99,7 @@ def data(request):
 #     result2 = get_top_customer()  # Call the function to get the mean quantity
 #     return render(request, 'try.html', {'result2': result2})
 
-from .analysis import generate_bar_chart
+# from .analysis import generate_bar_chart
 # def combined_view(request):
 #     result_mean_qty = mean_qty()
 #     result_top_customer = get_top_customer()
@@ -115,14 +115,11 @@ def combined_view(request):
     result_top_customer = get_top_customer()
 
     # Generate the bar chart
-    generate_bar_chart()
+    # generate_bar_chart()
 
-    # Pass the data to the template
-    context = {
-        'result_mean_qty': result_mean_qty,
+    # Pass the data directly to the render function
+    return render(request, 'try.html', {
+        'result_mean_qty': result_mean_qty, 
         'result_top_customer': result_top_customer,
-        'chart_image_path': 'Static/images/bar_chart.png',  # Update with the correct path
-    }
-
-    # Render the HTML template
-    return render(request, 'try.html', context)
+        # 'chart_image_path': 'Static/images/bar_chart.png',  # Update with the correct path
+    })

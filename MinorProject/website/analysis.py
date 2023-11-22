@@ -110,7 +110,7 @@ def get_top_customer():
             'customer_name': top_customer[1],
             'total_quantity': top_customer[2],
         }
-        return top_customer_dict['customer_name']
+        return top_customer_dict
     else:
         return None
 
@@ -122,24 +122,5 @@ def get_top_customer():
 #     print("No top customer found.")
 
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-def generate_bar_chart():
-    with connection.cursor() as cursor:
-        # Update the SQL query based on the columns in your 'website_records' table
-        cursor.execute("SELECT state, COUNT(*) FROM website_records GROUP BY state")
-        data = cursor.fetchall()
-
-        # Extract data for the bar chart
-        states, counts = zip(*data)
-
-        # Create a bar chart using Matplotlib
-        plt.bar(states, counts)
-        plt.xlabel('State')
-        plt.ylabel('Count')
-        plt.title('Record Count by State')
-
-        # Save the generated bar chart as an image in the static directory
-        static_path = os.path.join(os.path.dirname(__file__), 'Static')
-        image_path = os.path.join(static_path, 'images', 'bar_chart.png')
-        plt.savefig(image_path)

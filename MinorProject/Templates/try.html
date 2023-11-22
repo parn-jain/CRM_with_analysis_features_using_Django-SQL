@@ -11,12 +11,13 @@
 
     <p>Mean Quantity: {{ result_mean_qty }}</p>
 
-    <p>Top Customer: {% if result_top_customer %}{{ result_top_customer.customer_name }} (ID: {{ result_top_customer.customer_id }}) with total quantity {{ result_top_customer.total_quantity }}{% else %}No top customer found.{% endif %}</p>
+    <!-- <p>Top Customer: {% if result_top_customer %}{{ result_top_customer.customer_name }} (ID: {{ result_top_customer.customer_id }}) with total quantity {{ result_top_customer.total_quantity }}{% else %}No top customer found.{% endif %}</p> -->
+    <p>Top Customer: {% if result_top_customer %}
+        {{ result_top_customer.customer_name }} (ID: {{ result_top_customer.customer_id }}) with total quantity {{ result_top_customer.total_quantity }}
+    {% else %}
+        No top customer found.
+    {% endif %}</p>
 
-    <!-- Display the bar chart image -->
-    <img src="{% static chart_image_path %}" alt="Bar Chart">
-
-    <!-- You can add more HTML elements or customize the layout as needed -->
 
 </body>
 </html>
