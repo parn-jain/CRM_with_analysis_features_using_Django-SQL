@@ -81,3 +81,65 @@ def mean_qty():
     print(sum(qty()))
     return sum(qty())
 mean_qty()
+
+
+from django.db import connection
+
+def get_top_customer():
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                r.id as customer_id,
+                r.Name as customer_name,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_records r
+            JOIN
+                website_orderproduct op ON r.id = op.record_id
+            GROUP BY
+                r.id, r.Name
+            ORDER BY
+                total_quantity DESC
+            LIMIT 1;
+        """)
+        top_customer = cursor.fetchone()
+
+    if top_customer:
+        top_customer_dict = {
+            'customer_id': top_customer[0],
+            'customer_name': top_customer[1],
+            'total_quantity': top_customer[2],
+        }
+        return top_customer_dict['customer_name']
+    else:
+        return None
+
+# Example usage
+# top_customer = get_top_customer()
+# if top_customer:
+#     print(f"Top Customer: {top_customer['customer_name']} (ID: {top_customer['customer_id']}) with total quantity {top_customer['total_quantity']}")
+# else:
+#     print("No top customer found.")
+
+
+import matplotlib.pyplot as plt
+
+def generate_bar_chart():
+    with connection.cursor() as cursor:
+        # Update the SQL query based on the columns in your 'website_records' table
+        cursor.execute("SELECT state, COUNT(*) FROM website_records GROUP BY state")
+        data = cursor.fetchall()
+
+        # Extract data for the bar chart
+        states, counts = zip(*data)
+
+        # Create a bar chart using Matplotlib
+        plt.bar(states, counts)
+        plt.xlabel('State')
+        plt.ylabel('Count')
+        plt.title('Record Count by State')
+
+        # Save the generated bar chart as an image in the static directory
+        static_path = os.path.join(os.path.dirname(__file__), 'Static')
+        image_path = os.path.join(static_path, 'images', 'bar_chart.png')
+        plt.savefig(image_path)

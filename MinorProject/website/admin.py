@@ -25,4 +25,3 @@ class OrderProductAdmin(admin.ModelAdmin):
 admin.site.register(Records, RecordsAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
-

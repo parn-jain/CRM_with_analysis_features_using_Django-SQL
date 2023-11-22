@@ -12,6 +12,5 @@ urlpatterns = [
     # path('login',views.login_user, name='login'),
     path('logout',views.logout_user, name='logout'),
     path('data',views.data, name='data'),
-    # path('qty', views.mean_qty_view, name='mean_qty'),
-
+    path('qty', views.combined_view, name='combined_view'),
 ]
