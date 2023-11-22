@@ -114,13 +114,44 @@ def get_top_customer():
     else:
         return None
 
-# Example usage
-# top_customer = get_top_customer()
-# if top_customer:
-#     print(f"Top Customer: {top_customer['customer_name']} (ID: {top_customer['customer_id']}) with total quantity {top_customer['total_quantity']}")
-# else:
-#     print("No top customer found.")
 
 
-# import matplotlib.pyplot as plt
+
+
+# GRAPH
+# Import necessary libraries
+import matplotlib.pyplot as plt
+from django.db import connection
+
+def fetch_state_quantity():
+    with connection.cursor() as cursor:
+        # Execute a raw SQL query to fetch state and quantity data
+        cursor.execute("""
+            SELECT
+                r.state,
+                SUM(op.quantity) as total_quantity
+            FROM
+                website_records r
+            JOIN
+                website_orderproduct op ON r.id = op.record_id
+            GROUP BY
+                r.state
+            ORDER BY
+                total_quantity DESC;
+        """)
+        data = cursor.fetchall()
+
+        states, quantities = zip(*data)
+
+        return states, quantities
+
+def generate_state_quantity_chart():
+    states, quantities = fetch_state_quantity()
+
+    # Create a bar chart using Matplotlib
+    plt.bar(states, quantities)
+    plt.xlabel('State')
+    plt.ylabel('Total Quantity')
+    plt.title('Total Quantity by State')
+    plt.savefig('Static/images/state_quantity_chart.png')
 

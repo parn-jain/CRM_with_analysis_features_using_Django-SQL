@@ -11,12 +11,18 @@
 
     <p>Mean Quantity: {{ result_mean_qty }}</p>
 
-    <!-- <p>Top Customer: {% if result_top_customer %}{{ result_top_customer.customer_name }} (ID: {{ result_top_customer.customer_id }}) with total quantity {{ result_top_customer.total_quantity }}{% else %}No top customer found.{% endif %}</p> -->
     <p>Top Customer: {% if result_top_customer %}
         {{ result_top_customer.customer_name }} (ID: {{ result_top_customer.customer_id }}) with total quantity {{ result_top_customer.total_quantity }}
     {% else %}
         No top customer found.
     {% endif %}</p>
+
+    <!-- Display the state vs quantity chart -->
+    <!-- <img src="{{ state_quantity_chart_image_path }}" alt="State vs Quantity Chart"> -->
+    <div>
+        <!-- <img src="/images/state_quantity_chart.png" alt="State vs Quantity Chart"> -->
+        <img src="Static\images\state_quantity_chart.png" alt="State vs Quantity Chart">
+    </div>
 
 
 </body>

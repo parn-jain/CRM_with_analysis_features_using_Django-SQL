@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Records, Product, OrderProduct
 from .analysis import mean_qty
-from .analysis import get_top_customer
+from .analysis import get_top_customer,generate_state_quantity_chart
 def index(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -91,22 +91,6 @@ def data(request):
     # Retrieve products for displaying in the form
     products = Product.objects.all()
     return render(request, 'data.html', {'products': products})
-# def mean_qty_view(request):
-#     result = mean_qty()  # Call the function to get the mean quantity
-#     return render(request, 'try.html', {'result': result})
-
-# def get_top_customer(request):
-#     result2 = get_top_customer()  # Call the function to get the mean quantity
-#     return render(request, 'try.html', {'result2': result2})
-
-# from .analysis import generate_bar_chart
-# def combined_view(request):
-#     result_mean_qty = mean_qty()
-#     result_top_customer = get_top_customer()
-#     chart_image_path = generate_bar_chart()
-    
-#     return render(request, 'try.html', {'result_mean_qty': result_mean_qty, 'result_top_customer': result_top_customer, 'chart_image_path': chart_image_path})
-
 
 
 def combined_view(request):
@@ -114,12 +98,17 @@ def combined_view(request):
     result_mean_qty = mean_qty()
     result_top_customer = get_top_customer()
 
-    # Generate the bar chart
-    # generate_bar_chart()
 
-    # Pass the data directly to the render function
-    return render(request, 'try.html', {
-        'result_mean_qty': result_mean_qty, 
+    # Generate the state vs quantity chart
+    generate_state_quantity_chart()
+
+    # Pass the data to the template
+    context = {
+        'result_mean_qty': result_mean_qty,
         'result_top_customer': result_top_customer,
-        # 'chart_image_path': 'Static/images/bar_chart.png',  # Update with the correct path
-    })
+        # 'chart_image_path': 'path/to/static/images/bar_chart.png',
+        # 'state_quantity_chart_image_path': 'MinorProject\Static\images\state_quantity_chart.png',
+    }
+
+    # Render the HTML template
+    return render(request, 'try.html', context)
