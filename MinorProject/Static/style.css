@@ -25,6 +25,7 @@ p {
     /* margin-top: 5px; */
     display: flex;
     justify-content: space-between;
+    text-align: center;
 }
 
 /* Card styles */
@@ -34,21 +35,25 @@ p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     flex: 1; /* Distribute space evenly */
     margin-right: 20px; /* Add some space between cards */
+    text-align: center;
 }
 
 .card-title {
     font-size: 1.25rem;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .card-body {
     color: #343a40;
     /* background: #0FFCF0; */
     padding: 20px;
+    text-align: center;
 }
 
 .card-text {
     font-size: 1rem;
+    text-align: center;
 }
 
 /* Chart image styles */

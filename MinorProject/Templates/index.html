@@ -5,7 +5,7 @@ hello
 {% block body %}
 
 {% if user.is_authenticated %}
-<h1>Hello World</h1>
+<!-- <h1>Hello World</h1> -->
 {% else %}
 <h1> Login </h2>
     <form method = 'POST' action = "{% url 'home' %}">
