@@ -61,7 +61,7 @@ def qty():
         # Process the order products data
         qty = []
         for order_qty in order_products:
-            qty.append(order_qty[1])
+            qty.append(order_qty[2])
         print(qty)   
         return qty
 def generate_bar_chart():
@@ -113,9 +113,6 @@ def get_top_customer():
         return top_customer_dict
     else:
         return None
-
-
-
 
 
 # GRAPH

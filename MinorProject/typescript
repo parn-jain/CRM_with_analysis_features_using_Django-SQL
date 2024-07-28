@@ -1,0 +1,10 @@
+Script started on 2024-06-03 00:46:22+05:30 [TERM="xterm-256color" TTY="/dev/cons0" COLUMNS="132" LINES="6"]
+[?2004hsh-5.2$ sdfs
+[?2004lsh: sdfs: command not found
+[?2004hsh-5.2$ ^C[?2004l[?2004h[?2004l
+[?2004hsh-5.2$ ^C[?2004l[?2004h[?2004l
+[?2004hsh-5.2$ ^C[?2004l[?2004h[?2004l
+[?2004hsh-5.2$ exit
+[?2004lexit
+
+Script done on 2024-06-03 00:46:28+05:30 [COMMAND_EXIT_CODE="130"]
