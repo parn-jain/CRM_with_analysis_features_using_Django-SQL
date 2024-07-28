@@ -52,7 +52,7 @@ def data(request):
 
         # Create Records instance
         records_instance = Records.objects.create(
-            OrderData=order_date,
+            # OrderData=order_date,
             Name=name,
             Email=email,
             phone=phone,
